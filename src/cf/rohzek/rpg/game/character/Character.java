@@ -39,7 +39,7 @@ public class Character
 	{
 		for(IClass cls : Classes.CLASSES) 
 		{
-			if(cls.getName().toLowerCase().contains(className.toLowerCase()))
+			if(cls.getName().toLowerCase().equals(className.toLowerCase()))
 			{
 				this.character_class = cls;
 				
@@ -50,7 +50,6 @@ public class Character
 		System.out.println("Choosing random class.");
 		// If player can't type or didn't want to choose, assign random
 		this.character_class = Classes.CLASSES.get(RPGGame.random.nextInt(Classes.CLASSES.size()));
-		System.out.println("Got " + this.character_class.getName());
 	}
 	
 	public void ChooseRace(String name) 
@@ -59,7 +58,7 @@ public class Character
 		{
 			if(name.toLowerCase().equals("half elf") && race.name.toLowerCase().equals("half-elf") ||
 			   name.toLowerCase().equals("half orc") && race.name.toLowerCase().equals("half-orc") ||
-			   race.name.toLowerCase().contains(name.toLowerCase()))
+			   race.name.toLowerCase().equals(name.toLowerCase()))
 			{
 				this.race = race;
 				Races.GeneratePhysicalProperties(race);
@@ -209,7 +208,7 @@ public class Character
 	{
 		for(God god : Gods.GODS) 
 		{
-			if(god.name.toLowerCase().contains(name.toLowerCase())) 
+			if(god.name.toLowerCase().equals(name.toLowerCase())) 
 			{
 				this.character_class.setGod(god);
 				return;
@@ -223,7 +222,7 @@ public class Character
 	{
 		for(Alignment alignment : Alignments.ALIGNMENTS) 
 		{
-			if(alignment.name.toLowerCase().contains(name.toLowerCase())) 
+			if(alignment.name.toLowerCase().equals(name.toLowerCase())) 
 			{
 				this.character_class.setAlignment(alignment);
 				return;
@@ -267,9 +266,9 @@ public class Character
 	}
 	
 	private void GenerateRandomRace() 
-	{
+	{		
 		this.race = Races.RACES.get(RPGGame.random.nextInt(Races.RACES.size()));
-		this.race.languages = this.race.languages_original;
+		this.race.resetLanguages();
 		Races.GeneratePhysicalProperties(race);
 	}
 	
@@ -325,7 +324,7 @@ public class Character
 				        "Class: " + character_class + "\n" +
 						"Age: " + race.age + "\n" +
 						"Height: " + race.getHeight("imperial") + "\n" +
-						"Height: " + race.getHeight("metric") + "\n" +
+						//"Height: " + race.getHeight("metric") + "\n" +
 						"Weight: " + race.weight + "lbs" + "\n" +
 						"\n" +
 						"Languages: " + race.languages +
