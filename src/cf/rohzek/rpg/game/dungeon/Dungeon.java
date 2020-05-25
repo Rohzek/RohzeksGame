@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import cf.rohzek.rpg.RPGGame;
 
+@SuppressWarnings("unused")
 public class Dungeon 
 {
 	int x, y, id = 0;
@@ -297,13 +298,55 @@ public class Dungeon
 		}
 		
 		/* 
-		 * We need to be able to move straight down on the other options too
+		 * We need to be able to move straight on the other options too
 		 * So just in case we started already straight above the target we
 		 * should adapter to current anyway.
 		 */
 		if(current == null) 
 		{
 			current = layout[start.y][start.x];
+		}
+		
+		// We're straight east or west of the boss room
+		if(current.y == boss.y) 
+		{
+			// Move straight east
+			if(current.x < boss.x) 
+			{
+				for(int i = current.x; i < boss.x; i++) 
+				{
+					current = layout[current.y][i];
+					next = layout[current.y][i+1];
+					
+					last = current;
+					current.east = next;
+					current.west = last;
+							
+					if(next.active == 0) 
+					{
+						next.active = 1;
+					}
+				}
+			}
+			
+			// Move straight west
+			if(current.x > boss.x) 
+			{
+				for(int i = current.x; i > boss.x; i--) 
+				{
+					current = layout[current.y][i];
+					next = layout[current.y][i-1];
+					
+					last = current;
+					current.west = next;
+					current.east = last;
+							
+					if(next.active == 0) 
+					{
+						next.active = 1;
+					}
+				}
+			}
 		}
 		
 		// We're straight north of the boss room
