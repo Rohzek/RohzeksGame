@@ -77,6 +77,18 @@ public class Race
 		}
 	}
 	
+	public String getWeight(String way) 
+	{
+		if(way.toLowerCase().equals("imperial")) 
+		{
+			return "" + weight + "lbs";
+		}
+		else
+		{
+			return "" + (weight / 2.205f) + "kgs";
+		}
+	}
+	
 	public void centimetersToFeetInches(float cm) 
 	{
 		float inches = (cm/2.54f);

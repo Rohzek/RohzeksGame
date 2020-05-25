@@ -400,8 +400,8 @@ public class Character
 						"Age: " + race.age + "\n" +
 						"Height: " + race.getHeight("imperial") + "\n" +
 						//"Height: " + race.getHeight("metric") + "\n" +
-						"Weight: " + race.weight + "lbs" + "\n" +
-						//"Weight: " + race.weight + "kgs" + "\n" +
+						"Weight: " + race.getWeight("imperial") + "\n" +
+						//"Weight: " + race.getWeight("metric") + "\n" +
 						"\n" +
 						"Languages: " + race.languages +
 				        "\n" +
