@@ -16,6 +16,7 @@ import cf.rohzek.rpg.game.character.religion.Gods;
 public class Character 
 {
 	public String name;
+	public String gender;
 	public Health health;
 	public Mana mana;
 	public int level;
@@ -47,9 +48,82 @@ public class Character
 			}
 		}
 		
-		System.out.println("Choosing random class.");
 		// If player can't type or didn't want to choose, assign random
 		this.character_class = Classes.CLASSES.get(RPGGame.random.nextInt(Classes.CLASSES.size()));
+	}
+	
+	public void ChooseName(String name) 
+	{
+		if(name.length() < 1) 
+		{
+			String[] randomMaleNames = {"Alexandre", "Rey", "Kyle", "Normas", "Gunter", "Guy", "Conrad", "Gilbert", "Chad", "Jean"};
+			String[] randomFemaleNames = {"Heather", "Oriel", "Katherine", "Juliana", "Eloise", "Eleanor", "Griella", "Emma", "Eva", "Elizabeth"};
+			
+			if(this.gender.toLowerCase().equals("male")) 
+			{
+				this.name = randomMaleNames[RPGGame.random.nextInt(randomMaleNames.length)];
+			}
+			
+			else if(this.gender.toLowerCase().equals("female")) 
+			{
+				this.name = randomFemaleNames[RPGGame.random.nextInt(randomFemaleNames.length)];
+			}
+			
+			else 
+			{
+				this.name = "Special Little Snowflake";
+			}
+		}
+		else
+		{
+			this.name = name;
+		}
+	}
+	
+	public void ChooseGender(String name) 
+	{
+		if(name.length() < 1) 
+		{
+			int number = RPGGame.random.nextInt(100) + 1;
+			
+			if(number < 51) 
+			{
+				this.gender = "Female";
+			}
+			else 
+			{
+				this.gender = "Male";
+			}
+		}
+		
+		else 
+		{
+			if(name.toLowerCase().contains("f")) 
+			{
+				this.gender = "Female";
+			}
+			
+			else if (name.toLowerCase().contains("m")) 
+			{
+				this.gender = "Male";
+			}
+			
+			else 
+			{
+				int number = RPGGame.random.nextInt(100) + 1;
+				String g;
+				if(number < 51) 
+				{
+					g = "Female";
+				}
+				else 
+				{
+					g = "Male";
+				}
+				
+				this.gender = "Delusional Liberal (" + g + ")";
+			}
+		}
 	}
 	
 	public void ChooseRace(String name) 
@@ -320,12 +394,14 @@ public class Character
 	@Override
 	public String toString() {
 		String output = "\nName: " + name + '\n' +
+						"Gender: " + gender + '\n' +
 						"Race: " + race + '\n' +
 				        "Class: " + character_class + "\n" +
 						"Age: " + race.age + "\n" +
 						"Height: " + race.getHeight("imperial") + "\n" +
 						//"Height: " + race.getHeight("metric") + "\n" +
 						"Weight: " + race.weight + "lbs" + "\n" +
+						//"Weight: " + race.weight + "kgs" + "\n" +
 						"\n" +
 						"Languages: " + race.languages +
 				        "\n" +

@@ -35,6 +35,8 @@ public class RPGGame
 				saves.add(new File(entry));
 			}
 		}
+
+		clrscr();
 		
 		Game game = new Game();
 		

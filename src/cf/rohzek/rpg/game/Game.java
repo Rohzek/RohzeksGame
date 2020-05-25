@@ -91,10 +91,16 @@ public class Game
 		while(genChar) 
 		{
 			character = new Character();
-			System.out.println("\nWhat is your character's name?");
-			character.name = scanner.nextLine();
 			
-			System.out.println("\nWhat is your character's race?");
+			System.out.println("\nWhat is your character's gender? (Leave blank for random gender)");
+			character.ChooseGender(scanner.nextLine());
+			
+			
+			System.out.println("\nWhat is your character's name? (Leave blank for random name)");
+			character.ChooseName(scanner.nextLine());
+			
+			
+			System.out.println("\nWhat is your character's race? (Leave blank for random race)");
 			System.out.println(Races.RACES);
 			character.ChooseRace(scanner.nextLine());
 			
@@ -102,7 +108,7 @@ public class Game
 			
 			if(character.race.name.toLowerCase().equals("human") || character.race.name.toLowerCase().equals("half-elf") || character.race.name.toLowerCase().equals("half elf")) 
 			{
-				System.out.println("\nAs a " + character.race.name + " you get a language selection. What language would you like? (Leave blank or type something random for random language)");
+				System.out.println("\nAs a " + character.race.name + " you get a language selection. What language would you like? (Leave blank for random language)");
 				character.race.resetLanguages();
 				System.out.println(Languages.LANGUAGES);
 				System.out.println("(Please keep in mind that you already speak: " + character.race.languages + ")");
@@ -111,24 +117,24 @@ public class Game
 			
 			if(character.race.name.toLowerCase().equals("half-elf") || character.race.name.toLowerCase().equals("half elf")) 
 			{
-				System.out.println("\nAs a " + character.race.name + " you get a +1 to two ability scores. Which two would you like?");
+				System.out.println("\nAs a " + character.race.name + " you get a +1 to two ability scores. Which two would you like? (Leave blank for random selection)");
 				System.out.println(character.stats.core.STATS);
 				System.out.println("(Please separate your choices with a space)");
 				character.AddBonusStats(scanner.nextLine());
 			}
 			
-			System.out.println("\nWhat is your character's class? (Leave blank or type something random for random class)");
+			System.out.println("\nWhat is your character's class? (Leave blank for random class)");
 			System.out.println(Classes.CLASSES);
 			
 			character.ChooseClass(scanner.nextLine());
 			character.GenerateStats();
 			
-			System.out.println("\nWhat is your character's god or goddess? (Leave blank or type something random for random god)");
+			System.out.println("\nWhat is your character's god or goddess? (Leave blank for random god)");
 			System.out.println(Gods.GODS);
 			
 			character.setGod(scanner.nextLine());
 			
-			System.out.println("\nWhat is your character's alignment? (Leave blank or type something random for random alignment)");
+			System.out.println("\nWhat is your character's alignment? (Leave blank for random alignment)");
 			System.out.println(Alignments.ALIGNMENTS);
 			
 			character.setAlignment(scanner.nextLine());
@@ -137,7 +143,7 @@ public class Game
 			System.out.println("\nCharacter Information:");
 			System.out.println(character);
 			
-			System.out.println("\nStart game with this character?");
+			System.out.println("\nStart game with this character? [yes/no]");
 			boolean acceptCharacter = (scanner.nextLine().toLowerCase().contains("yes") ? true : false);
 			
 			if(acceptCharacter) 
