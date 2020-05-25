@@ -10,11 +10,15 @@ import cf.rohzek.rpg.game.character.classes.Classes;
 import cf.rohzek.rpg.game.character.language.Languages;
 import cf.rohzek.rpg.game.character.race.Races;
 import cf.rohzek.rpg.game.character.religion.Gods;
+import cf.rohzek.rpg.game.dungeon.Dungeon;
 
 public class Game 
 {
 	Scanner scanner;
+	
 	Character character;
+	Dungeon dungeon;
+	
 	private boolean gameRunning = false;
 	private boolean gameLoaded = false;
 	
@@ -22,6 +26,7 @@ public class Game
 	{
 		scanner = RPGGame.scanner;
 		character = RPGGame.character;
+		dungeon = RPGGame.dungeon;
 		
 		gameRunning = true;
 		
@@ -73,7 +78,7 @@ public class Game
 		
 		while(gameRunning && !gameLoaded) 
 		{
-			GenerateCharacter();
+			//GenerateCharacter();
 			GenerateDungeon();
 			RunGame();
 		}
@@ -157,7 +162,9 @@ public class Game
 	
 	public void GenerateDungeon() 
 	{
+		dungeon = new Dungeon(10);
 		
+		dungeon.GenerateDungeon();
 	}
 	
 	public void RunGame() 
