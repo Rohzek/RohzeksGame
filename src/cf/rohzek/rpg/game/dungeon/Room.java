@@ -18,6 +18,9 @@ public class Room
 		Generate();
 	}
 	
+	/**
+	 * Randomly determines if the room should be active or not
+	 */
 	private void Generate() 
 	{
 		int number = RPGGame.random.nextInt(100) + 1;

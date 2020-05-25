@@ -45,7 +45,8 @@ public class RPGGame
 		System.out.println("Thanks for playing!");
 	}
 	
-	public static void clrscr(){
+	public static void clrscr()
+	{
 		System.out.println("\n");
 	    //Clears Screen in java
 	    try 

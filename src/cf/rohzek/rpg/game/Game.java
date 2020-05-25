@@ -15,7 +15,6 @@ import cf.rohzek.rpg.game.dungeon.Dungeon;
 public class Game 
 {
 	Scanner scanner;
-	
 	Character character;
 	Dungeon dungeon;
 	
@@ -33,6 +32,10 @@ public class Game
 		StartGame();
 	}
 	
+	/**
+	 * Starts the setup process as soon as the game is created.
+	 * Will attempt to load a game in progress, failing that begins a new game.
+	 */
 	public void StartGame() 
 	{
 		System.out.println("Hello, and welcome to " + RPGGame.game_name);
@@ -89,6 +92,9 @@ public class Game
 		}
 	}
 	
+	/**
+	 * Dialogue for the player to generate their character
+	 */
 	public void GenerateCharacter() 
 	{
 		boolean genChar = true;
@@ -160,13 +166,18 @@ public class Game
 		}
 	}
 	
+	/**
+	 * Generates the dungeon to play in
+	 */
 	public void GenerateDungeon() 
 	{
 		dungeon = new Dungeon(10);
-		
-		dungeon.GenerateDungeon();
+		dungeon.Generate();
 	}
 	
+	/**
+	 * Begins playing the game
+	 */
 	public void RunGame() 
 	{
 		gameRunning = false;
