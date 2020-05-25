@@ -10,6 +10,7 @@ import java.util.Scanner;
 import cf.rohzek.rpg.game.Game;
 import cf.rohzek.rpg.game.character.Character;
 import cf.rohzek.rpg.game.dice.Dice;
+import cf.rohzek.rpg.game.dungeon.Dungeon;
 
 @SuppressWarnings("unused")
 public class RPGGame 
@@ -23,6 +24,7 @@ public class RPGGame
 	public static List<File> saves = new ArrayList<File>();
 	
 	public static Character character;
+	public static Dungeon dungeon;
 	
 	public static void main(String[] args) 
 	{
@@ -43,7 +45,8 @@ public class RPGGame
 		System.out.println("Thanks for playing!");
 	}
 	
-	public static void clrscr(){
+	public static void clrscr()
+	{
 		System.out.println("\n");
 	    //Clears Screen in java
 	    try 

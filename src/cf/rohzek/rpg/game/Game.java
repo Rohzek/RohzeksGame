@@ -10,11 +10,14 @@ import cf.rohzek.rpg.game.character.classes.Classes;
 import cf.rohzek.rpg.game.character.language.Languages;
 import cf.rohzek.rpg.game.character.race.Races;
 import cf.rohzek.rpg.game.character.religion.Gods;
+import cf.rohzek.rpg.game.dungeon.Dungeon;
 
 public class Game 
 {
 	Scanner scanner;
 	Character character;
+	Dungeon dungeon;
+	
 	private boolean gameRunning = false;
 	private boolean gameLoaded = false;
 	
@@ -22,12 +25,17 @@ public class Game
 	{
 		scanner = RPGGame.scanner;
 		character = RPGGame.character;
+		dungeon = RPGGame.dungeon;
 		
 		gameRunning = true;
 		
 		StartGame();
 	}
 	
+	/**
+	 * Starts the setup process as soon as the game is created.
+	 * Will attempt to load a game in progress, failing that begins a new game.
+	 */
 	public void StartGame() 
 	{
 		System.out.println("Hello, and welcome to " + RPGGame.game_name);
@@ -73,7 +81,7 @@ public class Game
 		
 		while(gameRunning && !gameLoaded) 
 		{
-			GenerateCharacter();
+			//GenerateCharacter();
 			GenerateDungeon();
 			RunGame();
 		}
@@ -84,6 +92,9 @@ public class Game
 		}
 	}
 	
+	/**
+	 * Dialogue for the player to generate their character
+	 */
 	public void GenerateCharacter() 
 	{
 		boolean genChar = true;
@@ -155,11 +166,18 @@ public class Game
 		}
 	}
 	
+	/**
+	 * Generates the dungeon to play in
+	 */
 	public void GenerateDungeon() 
 	{
-		
+		dungeon = new Dungeon(10);
+		dungeon.Generate();
 	}
 	
+	/**
+	 * Begins playing the game
+	 */
 	public void RunGame() 
 	{
 		gameRunning = false;
