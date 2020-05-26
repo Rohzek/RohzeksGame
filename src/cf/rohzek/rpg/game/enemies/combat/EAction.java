@@ -26,4 +26,10 @@ public class EAction
 		this.reach = reach;
 		this.targetCount = targets;
 	}
+	
+	@Override
+	public String toString() 
+	{
+		return name;
+	}
 }

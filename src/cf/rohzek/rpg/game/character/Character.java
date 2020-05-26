@@ -18,6 +18,7 @@ public class Character
 	public String name;
 	public String gender;
 	public Health health;
+	public int ac;
 	public Mana mana;
 	public int level;
 	public int experience;
@@ -417,6 +418,30 @@ public class Character
 	{
 		public int current = 0;
 		public int max = 0;
+		
+		public int Heal(int restore) 
+		{
+			current -= restore;
+			
+			if(current > max) 
+			{
+				current = max;
+			}
+			
+			return current;
+		}
+		
+		public int Damage(int damage) 
+		{
+			current -= damage;
+			
+			if(current < 0) 
+			{
+				current = 0;
+			}
+			
+			return current;
+		}
 	}
 	
 	public class Mana

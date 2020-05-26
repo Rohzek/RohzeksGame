@@ -26,7 +26,7 @@ public class Enemy
 	public float xp;
 	public Stats stats;
 	public int speed;
-	EAction[] actions;
+	public EAction[] actions;
 	
 	public Enemy(String name, EnemyType type, Alignment alignment, String hp, int ac, float xp, int[] stats, int speed, EAction[] actions)
 	{
@@ -59,6 +59,12 @@ public class Enemy
 	public Enemy copy() 
 	{
 		return new Enemy(this.name, this.type, this.alignment, this.hitDie, this.ac, this.xp, this.stats.copy(), this.speed, this.actions);
+	}
+	
+	@Override
+	public String toString() 
+	{
+		return name;
 	}
 	
 	public class Stats
