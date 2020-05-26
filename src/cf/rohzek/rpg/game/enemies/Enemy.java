@@ -17,15 +17,15 @@ public class Enemy
 		GNOLL
 	}
 	
-	public String name;
+	public String name = "";
 	public EnemyType type;
 	Alignment alignment;
-	public int hp;
-	public String hitDie;
-	public int ac;
-	public int xp;
+	public int hp = 0;
+	public String hitDie = "";
+	public int ac = 0;
+	public int xp = 0;
 	public Stats stats;
-	public int speed;
+	public int speed = 30;
 	public List<EAction> actions;
 	
 	public Enemy(String name, EnemyType type, Alignment alignment, String hp, int ac, int xp, int[] stats, int speed, EAction[] actions)
@@ -34,7 +34,12 @@ public class Enemy
 		this.type = type;
 		this.alignment = alignment;
 		this.hitDie = hp;
-		this.hp = RPGGame.dice.Roll(this.hitDie);
+		
+		while(this.hp < 1) 
+		{
+			this.hp = RPGGame.dice.Roll(this.hitDie);
+		}
+		
 		this.ac = ac;
 		this.xp = xp;
 		this.stats = new Stats(stats);
@@ -48,7 +53,12 @@ public class Enemy
 		this.type = type;
 		this.alignment = alignment;
 		this.hitDie = hp;
-		this.hp = RPGGame.dice.Roll(this.hitDie);
+
+		while(this.hp < 1) 
+		{
+			this.hp = RPGGame.dice.Roll(this.hitDie);
+		}
+		
 		this.ac = ac;
 		this.xp = xp;
 		this.stats = stats;

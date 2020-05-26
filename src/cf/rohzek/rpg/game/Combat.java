@@ -52,6 +52,9 @@ public class Combat
 		enemy.stats.initiative = enemy.stats.GetInitiative();
 		System.out.println("Got: " + enemy.stats.initiative + "\n");
 		
+		System.out.println("\n\nPress Enter to start...");
+		scanner.nextLine();
+		
 	}
 	
 	private void PlayerStart() 
@@ -66,6 +69,9 @@ public class Combat
 			if(enemy.hp > 0) 
 			{
 				EnemyTurn();
+				System.out.println("\n\nPress Enter to continue...");
+				scanner.nextLine();
+				RPGGame.clrscr();
 			}
 		}
 	}
@@ -81,6 +87,9 @@ public class Combat
 			if(character.health.current > 0) 
 			{
 				PlayerTurn();
+				System.out.println("\n\nPress Enter to continue...");
+				scanner.nextLine();
+				RPGGame.clrscr();
 			}
 		}
 	}
@@ -114,16 +123,21 @@ public class Combat
 			int roll = character.stats.core.GetAttackRoll();
 			System.out.println("Got: " + roll);
 			
-			if(roll > enemy.ac) 
+			if(roll >= enemy.ac) 
 			{
-				System.out.println("\nAttacking " + enemy.name + " with " + Items.LONGSWORD);
-				System.out.println("Rolling for damage.");
+				System.out.println("Attacking " + enemy.name + " with " + Items.LONGSWORD);
+				System.out.println("Rolling for damage");
 				roll = dice.Roll(Items.LONGSWORD.damage);
-				System.out.println("Got: " + roll);
+				System.out.println("Hit " + enemy.name + " for " + roll + " damage");
 				
 				enemy.hp -= roll;
 				
 				CheckEnemyHP();
+			}
+			
+			else 
+			{
+				System.out.println("You missed with " + Items.LONGSWORD.name);
 			}
 		}
 		
@@ -142,11 +156,12 @@ public class Combat
 	{
 		EAction act = enemy.actions.get(RPGGame.random.nextInt(enemy.actions.size()));
 		
+		System.out.println(enemy.name + " readies to use " + act.name);
 		System.out.println("\nRolling for attack.");
 		int roll = dice.Roll(act.hit);
 		System.out.println("Got: " + roll);
 		
-		if(roll > character.ac) 
+		if(roll >= character.ac) 
 		{
 			System.out.println(enemy.name + " attacks with " + act.name);
 			character.health.Remove(roll);

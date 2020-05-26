@@ -89,7 +89,7 @@ public class Game
 		while(gameRunning && !gameLoaded) 
 		{
 			GenerateCharacter();
-			GenerateDungeon();
+			//GenerateDungeon();
 			RunGame();
 		}
 		
@@ -235,12 +235,15 @@ public class Game
 		
 		ac += Items.IRON_KITE.armorClass;
 		
+		RPGGame.clrscr();
+		
 		character.ac = ac;
 		System.out.println("\nCharacter information:");
 		System.out.println("Name: " + character.name);
 		System.out.println("HP: " + character.health.current);
 		System.out.println("AC: " + character.ac);
 		System.out.println("Weapon: " + Items.LONGSWORD.name);
+		System.out.println("Shield: " + Items.IRON_KITE.name);
 		System.out.println("Armor: " + Items.LEATHER_SET + "\n");
 		
 		System.out.println("\nEnemy information:");
@@ -248,6 +251,11 @@ public class Game
 		System.out.println("HP: " + enemy.hp);
 		System.out.println("AC: " + enemy.ac);
 		System.out.println("Actions: " + enemy.actions + "\n");
+		
+		System.out.println("\nPress Enter to continue...\n");
+		scanner.nextLine();
+		
+		RPGGame.clrscr();
 		
 		combat.Encounter(enemy);
 	}
