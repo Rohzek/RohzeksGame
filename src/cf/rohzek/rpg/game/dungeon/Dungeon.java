@@ -47,7 +47,7 @@ public class Dungeon
 		this.start = ChooseStartingRoom();
 		MakePath(start, boss);
 		
-		System.out.println(FormatPrint());
+		//System.out.println(FormatPrint());
 	}
 	
 	/**

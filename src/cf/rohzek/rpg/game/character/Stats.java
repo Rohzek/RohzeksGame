@@ -3,6 +3,8 @@ package cf.rohzek.rpg.game.character;
 import java.util.Arrays;
 import java.util.List;
 
+import cf.rohzek.rpg.RPGGame;
+
 public class Stats 
 {
 	public Core core;
@@ -35,6 +37,16 @@ public class Stats
 		public int intelligence;
 		public int wisdom;
 		public int charisma;
+		
+		public int initiative;
+		
+		public int GetInitiative() 
+		{
+			int dex = GetDexterityMod();
+			this.initiative = RPGGame.dice.Roll("d20") + dex;
+			
+			return this.initiative;
+		}
 		
 		public int GetStrengthMod() 
 		{

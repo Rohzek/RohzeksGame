@@ -81,7 +81,7 @@ public class Game
 		
 		while(gameRunning && !gameLoaded) 
 		{
-			//GenerateCharacter();
+			GenerateCharacter();
 			GenerateDungeon();
 			RunGame();
 		}
