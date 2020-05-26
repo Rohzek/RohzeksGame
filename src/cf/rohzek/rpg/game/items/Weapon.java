@@ -6,6 +6,7 @@ public class Weapon extends Item
 	{
 		BLUDGEONING,
 		PIERCING,
+		POISON,
 		SLASHING
 	}
 	
