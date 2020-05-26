@@ -1,4 +1,4 @@
-package cf.rohzek.rpg.game.enemies.combat;
+package cf.rohzek.rpg.game.enemies.actions;
 
 import cf.rohzek.rpg.game.items.Weapon.DamageType;
 

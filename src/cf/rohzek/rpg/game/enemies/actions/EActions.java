@@ -1,9 +1,9 @@
-package cf.rohzek.rpg.game.enemies.combat;
+package cf.rohzek.rpg.game.enemies.actions;
 
 import java.util.Arrays;
 import java.util.List;
 
-import cf.rohzek.rpg.game.enemies.combat.EAction.ActionType;
+import cf.rohzek.rpg.game.enemies.actions.EAction.ActionType;
 import cf.rohzek.rpg.game.items.Weapon.DamageType;
 
 public class EActions 

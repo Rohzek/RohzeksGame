@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import cf.rohzek.rpg.game.Combat;
 import cf.rohzek.rpg.game.Game;
 import cf.rohzek.rpg.game.character.Character;
 import cf.rohzek.rpg.game.dice.Dice;
@@ -25,6 +26,7 @@ public class RPGGame
 	
 	public static Character character;
 	public static Dungeon dungeon;
+	public static Combat combat;
 	
 	public static void main(String[] args) 
 	{
@@ -42,23 +44,18 @@ public class RPGGame
 		
 		Game game = new Game();
 		
-		System.out.println("Thanks for playing!");
+		System.out.println("\nThanks for playing!");
 	}
 	
 	public static void clrscr()
 	{
 		System.out.println("\n");
-	    //Clears Screen in java
+	    //Clears Screen in terminal or command prompt
 	    try 
 	    {
 	        if (System.getProperty("os.name").contains("Windows"))
 	        {
 	        	new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-	        	
-	        	//for(int i = 0; i < 80*300; i++) 
-	        	//{
-	        		//System.out.print("\b"); // Prints a backspace
-	        	//}
 	        }
 	        else
 	        {

@@ -5,7 +5,7 @@ import java.util.List;
 
 import cf.rohzek.rpg.RPGGame;
 import cf.rohzek.rpg.game.character.alignment.Alignment;
-import cf.rohzek.rpg.game.enemies.combat.EAction;
+import cf.rohzek.rpg.game.enemies.actions.EAction;
 
 public class Enemy 
 {
@@ -23,12 +23,12 @@ public class Enemy
 	public int hp;
 	public String hitDie;
 	public int ac;
-	public float xp;
+	public int xp;
 	public Stats stats;
 	public int speed;
-	public EAction[] actions;
+	public List<EAction> actions;
 	
-	public Enemy(String name, EnemyType type, Alignment alignment, String hp, int ac, float xp, int[] stats, int speed, EAction[] actions)
+	public Enemy(String name, EnemyType type, Alignment alignment, String hp, int ac, int xp, int[] stats, int speed, EAction[] actions)
 	{
 		this.name = name;
 		this.type = type;
@@ -39,10 +39,10 @@ public class Enemy
 		this.xp = xp;
 		this.stats = new Stats(stats);
 		this.speed = speed;
-		this.actions = actions;
+		this.actions = Arrays.asList(actions);
 	}
 	
-	public Enemy(String name, EnemyType type, Alignment alignment, String hp, int ac, float xp, Stats stats, int speed, EAction[] actions)
+	public Enemy(String name, EnemyType type, Alignment alignment, String hp, int ac, int xp, Stats stats, int speed, List<EAction> actions)
 	{
 		this.name = name;
 		this.type = type;

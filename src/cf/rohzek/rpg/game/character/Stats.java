@@ -31,14 +31,14 @@ public class Stats
 	{
 		public List<String> STATS = Arrays.asList(new String[]{"Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"});
 		
-		public int strength;
-		public int dexterity;
-		public int constitution;
-		public int intelligence;
-		public int wisdom;
-		public int charisma;
+		public int strength = 0;
+		public int dexterity = 0;
+		public int constitution = 0;
+		public int intelligence = 0;
+		public int wisdom = 0;
+		public int charisma = 0;
 		
-		public int initiative;
+		public int initiative = 0;
 		
 		public int GetInitiative() 
 		{
@@ -46,6 +46,12 @@ public class Stats
 			this.initiative = RPGGame.dice.Roll("d20") + dex;
 			
 			return this.initiative;
+		}
+		
+		public int GetAttackRoll() 
+		{
+			int str = GetStrengthMod();
+			return RPGGame.dice.Roll("d20") + str;
 		}
 		
 		public int GetStrengthMod() 

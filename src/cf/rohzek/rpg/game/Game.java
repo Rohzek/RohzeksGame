@@ -13,13 +13,16 @@ import cf.rohzek.rpg.game.character.religion.Gods;
 import cf.rohzek.rpg.game.dungeon.Dungeon;
 import cf.rohzek.rpg.game.enemies.Enemies;
 import cf.rohzek.rpg.game.enemies.Enemy;
-import cf.rohzek.rpg.game.enemies.combat.EAction;
+import cf.rohzek.rpg.game.items.Armor;
+import cf.rohzek.rpg.game.items.Items;
 
+@SuppressWarnings("unused")
 public class Game 
 {
 	Scanner scanner;
 	Character character;
 	Dungeon dungeon;
+	Combat combat;
 	
 	private boolean gameRunning = false;
 	private boolean gameLoaded = false;
@@ -29,6 +32,7 @@ public class Game
 		scanner = RPGGame.scanner;
 		character = RPGGame.character;
 		dungeon = RPGGame.dungeon;
+		combat = RPGGame.combat;
 		
 		gameRunning = true;
 		
@@ -183,219 +187,68 @@ public class Game
 	 */
 	public void RunGame() 
 	{
+		combat = new Combat(character);
 		CombatTest();
 		gameRunning = false;
 	}
 	
 	public void CombatTest() 
 	{
-		boolean combat = true;
 		RPGGame.clrscr();
-		System.out.println("Combat Test 0.0.2-alpha: Which enemy would you like to spawn?");
+		System.out.println("Combat Test 0.0.2-alpha");
+		System.out.println("Which enemy would you like to spawn?");
+		System.out.println(Enemies.ENEMIES);
+		String enemyName = scanner.nextLine().trim().toLowerCase();
+		Enemy enemy = null;
 		
-		while(combat) 
+		
+		boolean temp = true;
+		while(temp) 
 		{
-			System.out.println(Enemies.ENEMIES);
-			String enemyName = scanner.nextLine().toLowerCase();
-			Enemy enemy = null;
-
-			while(enemy == null) 
+			if("kobold".equals(enemyName) || "goblin".equals(enemyName) || "hobgoblin".equals(enemyName) || "gnoll".equals(enemyName) || "treasure chest".equals(enemyName)) 
 			{
-				for(Enemy e : Enemies.ENEMIES) 
-				{
-					if(e.name.toLowerCase().equals(enemyName))
-					{
-						enemy = e.copy();
-					}
-				}
-				
-				if(enemy == null) 
-				{
-					System.out.println("\nEnemy type not found. Please try again.");
-					System.out.println(Enemies.ENEMIES);
-					enemyName = scanner.nextLine().toLowerCase();
-				}
+				temp = false;
 			}
-			
-			System.out.println("\nEnemy information:");
-			System.out.println("Name:" + enemy.name);
-			System.out.println("HP:" + enemy.hp);
-			System.out.println("Actions:" + enemy.actions + "\n");
-			
-			System.out.println("\nRolling for " + character.name + "'s initiative.");
-			int playerI = character.stats.core.GetInitiative();
-			character.ac = RPGGame.dice.Roll("1d12+2");
-			System.out.println("Got: " + playerI + "\n");
-			
-			System.out.println("Rolling for " + enemy.name + "'s initiative.");
-			int enemyI = enemy.stats.GetInitiative();
-			System.out.println("Got: " + enemyI + "\n");
-			
-			// Actual combat.
-			while(enemy.hp > 0 && character.health.current > 0) 
+			else 
 			{
-				boolean escape = false;
-				
-				if(playerI > enemyI) 
-				{
-					while(!escape) 
-					{
-						System.out.println("What would you like to do?");
-						System.out.println("[Attack]");
-						String playerinput = scanner.nextLine();
-						
-						if(playerinput.toLowerCase() == "attack") 
-						{
-							playerinput = playerinput.toLowerCase();
-						}
-						
-						if(playerinput.toLowerCase() == "run") 
-						{
-							playerinput = playerinput.toLowerCase();
-						}
-						
-						else 
-						{
-							playerinput = "attack";
-						}
-						
-						if(playerinput == "run") 
-						{
-							escape = true;
-							enemy.hp = 0;
-						}
-						else 
-						{
-							if(RPGGame.dice.Roll("d20") > enemy.ac) 
-							{
-								int roll = RPGGame.dice.Roll("2d6");
-								enemy.hp -= (roll);
-								System.out.println("Hit for " + roll);
-							}
-							else
-							{
-								System.out.println("Your attack misses!");
-							}
-							
-							System.out.println("\n");
-							
-							if(enemy.hp < 1) 
-							{
-								character.experience += enemy.xp;
-								
-								if(character.experience > (character.level * 100)) 
-								{
-									character.level += 1;
-								}
-							}
-						}
-						
-						if(escape != true) 
-						{
-							EAction act = enemy.actions[RPGGame.random.nextInt(enemy.actions.length)];
-							
-							System.out.println(enemy.name + " uses " + act.name);
-							
-							if(RPGGame.dice.Roll("d20") > character.ac) 
-							{
-								int roll = RPGGame.dice.Roll(act.hit);
-								character.health.Damage(roll);
-								System.out.println("Hits you for " + roll + "\n" + character.health.current + " HP left.\n");
-							}
-							else
-							{
-								System.out.println(enemy.name + " misses with " + act.name);
-							}
-						}
-						
-						
-						System.out.println("\n");
-					}
-				}
-				
-				else if(enemyI > playerI) 
-				{
-					while(!escape) 
-					{
-						EAction act = enemy.actions[RPGGame.random.nextInt(enemy.actions.length)];
-						
-						System.out.println(enemy.name + " uses " + act.name);
-						
-						if(RPGGame.dice.Roll("d20") > character.ac) 
-						{
-							int roll = RPGGame.dice.Roll(act.hit);
-							character.health.Damage(roll);
-							System.out.println("Hits you for " + roll + "\n" + character.health.current + " HP left.\n");
-						}
-						else
-						{
-							System.out.println(enemy.name + " misses with " + act.name);
-						}
-						
-						System.out.println("\n");
-						
-						if(character.health.current == 0) 
-						{
-							System.out.println("You have died.");
-							
-							System.out.println("\n");
-							escape = true;
-							combat = false;
-							break;
-						}
-
-						System.out.println("What would you like to do?");
-						System.out.println("[Attack]");
-						String playerinput = scanner.nextLine();
-						
-						if(playerinput.toLowerCase() == "attack") 
-						{
-							playerinput = playerinput.toLowerCase();
-						}
-						
-						if(playerinput.toLowerCase() == "run") 
-						{
-							playerinput = playerinput.toLowerCase();
-						}
-						
-						else 
-						{
-							playerinput = "attack";
-						}
-						
-						if(playerinput == "run") 
-						{
-							escape = true;
-							enemy.hp = 0;
-						}
-						else 
-						{
-							if(RPGGame.dice.Roll("d20") > enemy.ac) 
-							{
-								int roll = RPGGame.dice.Roll("2d6");
-								enemy.hp -= (roll);
-								System.out.println("Hit for " + roll);
-							}
-							else
-							{
-								System.out.println("Your attack misses!");
-							}
-							
-							System.out.println("\n");
-							
-							if(enemy.hp < 1) 
-							{
-								character.experience += enemy.xp;
-								
-								if(character.experience > (character.level * 100)) 
-								{
-									character.level += 1;
-								}
-							}
-						}
-					}
-				}
+				System.out.println("\nEnemy type not found. Please try again.\n");
+				System.out.println("\nWhich enemy would you like to spawn?");
+				System.out.println(Enemies.ENEMIES);
+				enemyName = scanner.nextLine().trim().toLowerCase();
 			}
 		}
+		
+		for(Enemy e : Enemies.ENEMIES) 
+		{
+			if(e.name.toLowerCase().equals(enemyName))
+			{
+				enemy = e.copy();
+			}
+		}
+		
+		int ac = 0;
+		
+		for(Armor armor : Items.LEATHER_SET) 
+		{
+			ac += armor.armorClass;
+		}
+		
+		ac += Items.IRON_KITE.armorClass;
+		
+		character.ac = ac;
+		System.out.println("\nCharacter information:");
+		System.out.println("Name: " + character.name);
+		System.out.println("HP: " + character.health.current);
+		System.out.println("AC: " + character.ac);
+		System.out.println("Weapon: " + Items.LONGSWORD.name);
+		System.out.println("Armor: " + Items.LEATHER_SET + "\n");
+		
+		System.out.println("\nEnemy information:");
+		System.out.println("Name: " + enemy.name);
+		System.out.println("HP: " + enemy.hp);
+		System.out.println("AC: " + enemy.ac);
+		System.out.println("Actions: " + enemy.actions + "\n");
+		
+		combat.Encounter(enemy);
 	}
 }

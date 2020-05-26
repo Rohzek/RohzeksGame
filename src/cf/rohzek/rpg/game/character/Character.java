@@ -37,6 +37,22 @@ public class Character
 		race = null;
 	}
 	
+	public void GainEXP(int xp) 
+	{
+		this.experience += xp;
+		
+		if(this.experience > (this.level * 100)) 
+		{
+			this.level += 1;
+			System.out.println(this.name + " has leveled up!");
+		}
+	}
+	
+	public void CalculateAC() 
+	{
+		this.ac = 10 + this.stats.core.GetDexterityMod();
+	}
+	
 	public void ChooseClass(String className) 
 	{
 		for(IClass cls : Classes.CLASSES) 
@@ -379,6 +395,7 @@ public class Character
 		this.stats.core.charisma = RPGGame.dice.Roll("d20");
 		
 		GenerateVitality();
+		CalculateAC();
 	}
 	
 	public void GenerateVitality() 
@@ -419,9 +436,9 @@ public class Character
 		public int current = 0;
 		public int max = 0;
 		
-		public int Heal(int restore) 
+		public int Restore(int gain) 
 		{
-			current -= restore;
+			current += gain;
 			
 			if(current > max) 
 			{
@@ -431,9 +448,9 @@ public class Character
 			return current;
 		}
 		
-		public int Damage(int damage) 
+		public int Remove(int loss) 
 		{
-			current -= damage;
+			current -= loss;
 			
 			if(current < 0) 
 			{
@@ -448,5 +465,29 @@ public class Character
 	{
 		public int current = 0;
 		public int max = 0;
+		
+		public int Restore(int gain) 
+		{
+			current += gain;
+			
+			if(current > max) 
+			{
+				current = max;
+			}
+			
+			return current;
+		}
+		
+		public int Remove(int loss) 
+		{
+			current -= loss;
+			
+			if(current < 0) 
+			{
+				current = 0;
+			}
+			
+			return current;
+		}
 	}
 }

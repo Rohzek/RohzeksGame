@@ -12,4 +12,10 @@ public class Item
 		this.value = value;
 		this.weight = weight;
 	}
+	
+	@Override
+	public String toString() 
+	{
+		return this.name;
+	}
 }
