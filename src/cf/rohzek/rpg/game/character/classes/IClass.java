@@ -18,4 +18,6 @@ public interface IClass
 	public String getManaDice();
 	public int getBaseHP();
 	public int getBaseMP();
+	
+	public IClass copy();
 }

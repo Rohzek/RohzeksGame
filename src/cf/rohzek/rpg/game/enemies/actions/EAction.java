@@ -27,6 +27,11 @@ public class EAction
 		this.targetCount = targets;
 	}
 	
+	public EAction copy() 
+	{
+		return new EAction(this.name, this.hit, this.type, this.damageType, this.reach, this.targetCount);
+	}
+	
 	@Override
 	public String toString() 
 	{

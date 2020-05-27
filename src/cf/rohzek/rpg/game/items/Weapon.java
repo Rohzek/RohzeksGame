@@ -4,6 +4,7 @@ public class Weapon extends Item
 {
 	public enum DamageType
 	{
+		NONE,
 		BLUDGEONING,
 		PIERCING,
 		POISON,

@@ -7,21 +7,26 @@ import cf.rohzek.rpg.game.character.alignment.Alignment;
 import cf.rohzek.rpg.game.character.alignment.Alignments;
 import cf.rohzek.rpg.game.character.classes.Classes;
 import cf.rohzek.rpg.game.character.classes.IClass;
+import cf.rohzek.rpg.game.character.health.Health;
 import cf.rohzek.rpg.game.character.language.Languages;
+import cf.rohzek.rpg.game.character.mana.Mana;
 import cf.rohzek.rpg.game.character.race.Race;
 import cf.rohzek.rpg.game.character.race.Races;
 import cf.rohzek.rpg.game.character.religion.God;
 import cf.rohzek.rpg.game.character.religion.Gods;
+import cf.rohzek.rpg.game.character.stats.Stats;
+import cf.rohzek.rpg.util.Settings;
+import cf.rohzek.rpg.util.Typewriter;
 
-public class Character 
+public class Character
 {
-	public String name;
-	public String gender;
+	public String name = "";
+	public String gender = "";
 	public Health health;
-	public int ac;
 	public Mana mana;
-	public int level;
-	public int experience;
+	public int ac = 0;
+	public int level = 0;
+	public int experience = 0;
 	public Stats stats;
 	public Race race;
 	public IClass character_class;
@@ -29,26 +34,71 @@ public class Character
 	
 	public Inventory inventory;
 	
+	public int battles = 0;
+	
 	public Character() 
 	{
-		stats = new Stats();
+		stats = new Stats(this);
 		health = new Health();
 		mana = new Mana();
 		race = null;
+		inventory = new Inventory();
+	}
+	
+	public Character(String name, String gender, Health health, Mana mana, int ac, int level, int experience, Stats stats, Race race, IClass character_class, List<Magic> magicks, Inventory inventory, int battles) 
+	{
+		this.name = name;
+		this.gender = gender;
+		this.health = health;
+		this.ac = ac;
+		this.mana = mana;
+		this.level = level;
+		this.experience = experience;
+		this.stats = stats;
+		this.race = race;
+		this.character_class = character_class;
+		this.magicks = magicks;
+		this.inventory = inventory;
+		this.battles = battles;
+	}
+	
+	public Character copy() 
+	{
+		return new Character(this.name, this.gender, this.health, this.mana, this.ac, this.level, this.experience, this.stats, this.race, this.character_class, this.magicks, this.inventory, this.battles);
 	}
 	
 	public void GainEXP(int xp) 
 	{
 		this.experience += xp;
 		
-		if(this.experience > (this.level * 100)) 
+		if(this.experience >= CalculateExperience()) 
 		{
-			this.level += 1;
-			System.out.println(this.name + " has leveled up!");
+			LevelUp();
 		}
 	}
 	
-	public void CalculateAC() 
+	private int CalculateExperience() 
+	{
+		int scale = 150;
+		return (int) (scale * Math.pow((this.level + 1), 2) - (scale * (this.level + 1)));
+	}
+	
+	public void LevelUp() 
+	{
+		this.level += 1;
+		int increase = RPGGame.dice.Roll(this.character_class.getHitDice());
+		this.health.max += increase;
+		this.health.Restore(increase);
+		Typewriter.Type(this.name + " has leveled up!");
+		Typewriter.Type(this.name + " is now level " + this.level);
+	}
+	
+	public int CalculateProficiency() 
+	{
+		return (int)(Math.floor(2 + (.25 * (level - 2))));
+	}
+	
+	public void CalculateBaseAC() 
 	{
 		this.ac = 10 + this.stats.core.GetDexterityMod();
 	}
@@ -151,8 +201,8 @@ public class Character
 			   name.toLowerCase().equals("half orc") && race.name.toLowerCase().equals("half-orc") ||
 			   race.name.toLowerCase().equals(name.toLowerCase()))
 			{
-				this.race = race;
-				Races.GeneratePhysicalProperties(race);
+				this.race = race.copy();
+				Races.GeneratePhysicalProperties(this.race);
 				return;
 			}
 		}
@@ -163,34 +213,34 @@ public class Character
 	
 	public void AddRacialStats(Race race) 
 	{
-		if(race == Races.dragonborn) 
+		if(race == Races.DRAGONBORN) 
 		{
 			AddBonusStats("strength", 2);
 			AddBonusStats("charisma", 1);
 		}
 		
-		if(race == Races.dwarf) 
+		if(race == Races.DWARF) 
 		{
 			AddBonusStats("constitution", 2);
 		}
 		
-		if(race == Races.elf || race == Races.halfling) 
+		if(race == Races.ELF || race == Races.HALFLING) 
 		{
 			AddBonusStats("dexterity", 2);
 		}
 		
-		if(race == Races.gnome) 
+		if(race == Races.GNOME) 
 		{
 			AddBonusStats("intelligence", 2);
 		}
 		
-		if(race == Races.half_orc) 
+		if(race == Races.HALF_ORC) 
 		{
 			AddBonusStats("strength", 2);
 			AddBonusStats("constitution", 1);
 		}
 		
-		if(race == Races.human) 
+		if(race == Races.HUMAN) 
 		{
 			AddBonusStats("strength", 1);
 			AddBonusStats("dexterity", 1);
@@ -200,7 +250,7 @@ public class Character
 			AddBonusStats("charisma", 1);
 		}
 		
-		if(race == Races.tiefling) 
+		if(race == Races.TIEFLING) 
 		{
 			AddBonusStats("charisma", 2);
 			AddBonusStats("intelligence", 1);
@@ -331,11 +381,11 @@ public class Character
 			
 			if(number >= 50) 
 			{
-				this.character_class.setGod(Gods.pelor);
+				this.character_class.setGod(Gods.PELOR);
 			}
 			else
 			{
-				this.character_class.setGod(Gods.wee_jas);
+				this.character_class.setGod(Gods.WEE_JAS);
 			}
 		}
 		else 
@@ -348,7 +398,7 @@ public class Character
 	{
 		if(this.character_class.getName().toLowerCase().equals("paladin")) 
 		{
-			this.character_class.setAlignment(Alignments.lawful_good);
+			this.character_class.setAlignment(Alignments.LAWFUL_GOOD);
 		}
 		else 
 		{
@@ -358,8 +408,7 @@ public class Character
 	
 	private void GenerateRandomRace() 
 	{		
-		this.race = Races.RACES.get(RPGGame.random.nextInt(Races.RACES.size()));
-		this.race.resetLanguages();
+		this.race = Races.RACES.get(RPGGame.random.nextInt(Races.RACES.size())).copy();
 		Races.GeneratePhysicalProperties(race);
 	}
 	
@@ -395,7 +444,7 @@ public class Character
 		this.stats.core.charisma = RPGGame.dice.Roll("d20");
 		
 		GenerateVitality();
-		CalculateAC();
+		CalculateBaseAC();
 	}
 	
 	public void GenerateVitality() 
@@ -416,10 +465,8 @@ public class Character
 						"Race: " + race + '\n' +
 				        "Class: " + character_class + "\n" +
 						"Age: " + race.age + "\n" +
-						"Height: " + race.getHeight("imperial") + "\n" +
-						//"Height: " + race.getHeight("metric") + "\n" +
-						"Weight: " + race.getWeight("imperial") + "\n" +
-						//"Weight: " + race.getWeight("metric") + "\n" +
+						"Height: " + race.getHeight(Settings.measurements) + "\n" +
+						"Weight: " + race.getWeight(Settings.measurements) + "\n" +
 						"\n" +
 						"Languages: " + race.languages +
 				        "\n" +
@@ -429,65 +476,5 @@ public class Character
 				        "Experience: " + experience + "\n" +
 				        stats;
 		return output;
-	}
-	
-	public class Health
-	{
-		public int current = 0;
-		public int max = 0;
-		
-		public int Restore(int gain) 
-		{
-			current += gain;
-			
-			if(current > max) 
-			{
-				current = max;
-			}
-			
-			return current;
-		}
-		
-		public int Remove(int loss) 
-		{
-			current -= loss;
-			
-			if(current < 0) 
-			{
-				current = 0;
-			}
-			
-			return current;
-		}
-	}
-	
-	public class Mana
-	{
-		public int current = 0;
-		public int max = 0;
-		
-		public int Restore(int gain) 
-		{
-			current += gain;
-			
-			if(current > max) 
-			{
-				current = max;
-			}
-			
-			return current;
-		}
-		
-		public int Remove(int loss) 
-		{
-			current -= loss;
-			
-			if(current < 0) 
-			{
-				current = 0;
-			}
-			
-			return current;
-		}
 	}
 }

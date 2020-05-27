@@ -13,6 +13,11 @@ public class Alignment
 		this.description = description;
 	}
 	
+	public Alignment copy() 
+	{
+		return new Alignment(this.name, this.label, this.description);
+	}
+	
 	@Override
 	public String toString() 
 	{

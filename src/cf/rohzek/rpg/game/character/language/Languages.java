@@ -6,13 +6,13 @@ import java.util.List;
 public class Languages 
 {
 	public static String COMMON = "Common",
-			       DRACONIC = "Draconic",
-			       DWARVISH = "Dwarvish",
-			       ELVISH = "Elvish",
-			       GNOMISH = "Gnomish",
-			       HALFLING = "Halfling",
-			       ORC = "Orc",
-			       INFERNAL = "Infernal";
+			       		 DRACONIC = "Draconic",
+			       		 DWARVISH = "Dwarvish",
+			       		 ELVISH = "Elvish",
+			       		 GNOMISH = "Gnomish",
+			       		 HALFLING = "Halfling",
+			       		 ORC = "Orc",
+			       		 INFERNAL = "Infernal";
 	
 	private static String[] languages = 
 		{

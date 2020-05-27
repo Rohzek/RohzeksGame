@@ -1,12 +1,15 @@
 package cf.rohzek.rpg.game.character.race;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import cf.rohzek.rpg.game.character.traits.Trait;
 
-public class Race 
+public class Race implements Serializable
 {
+	private static final long serialVersionUID = 6876484013751776063L;
+
 	public enum RaceSize
 	{
 		SMALL,
@@ -14,39 +17,35 @@ public class Race
 		LARGE,
 	}
 	
-	public String name;
-	public int age;
-	public float weight;
-	public String description;
+	public String name = "";
+	public int age = 0;
+	public float weight = 0f;
+	public String description = "";
 	public RaceSize size;
-	public int speed;
-	int heightFeet;
-	int heightInches;
-	float heightCentimeters;
+	public int speed = 30;
+	public int heightFeet = 0;
+	public int heightInches = 0;
+	public float heightCentimeters = 0;
 	public List<Trait> traits;
 	public ArrayList<String> languages = new ArrayList<String>();
-	public ArrayList<String> languages_original = new ArrayList<String>();
 	
-	public Race(String name, String description, float cm, int speed, List<Trait> traits, List<String> languages) 
+	public Race(String name, int age, float weight, String description, RaceSize size, float cm, int speed, List<Trait> traits, List<String> languages) 
 	{
 		this.name = name;
+		this.age = age;
+		this.weight = weight;
 		this.description = description;
 		this.traits = traits;
 
 		for(String string : languages) 
 		{
 			this.languages.add(string);
-		}
-		
-		for(String string : languages) 
-		{
-			this.languages_original.add(string);
 		}
 		
 		centimetersToFeetInches(cm);
 	}
 	
-	public Race(String name, String description, int feet, int inches, int speed, List<Trait> traits, List<String> languages) 
+	public Race(String name, int age, float weight, String description, RaceSize size, int feet, int inches, int speed, List<Trait> traits, List<String> languages) 
 	{
 		this.name = name;
 		this.description = description;
@@ -57,12 +56,12 @@ public class Race
 			this.languages.add(string);
 		}
 		
-		for(String string : languages) 
-		{
-			this.languages_original.add(string);
-		}
-		
 		feetInchesToCentimeters(feet, inches);
+	}
+
+	public Race copy()
+	{
+		return new Race(this.name, this.age, this.weight, this.description, this.size, this.heightCentimeters, this.speed, this.traits, this.languages);
 	}
 	
 	public String getHeight(String way) 
@@ -105,16 +104,6 @@ public class Race
 		float cm = (totalInches * 2.54f);
 		
 		this.heightCentimeters = cm;
-	}
-	
-	public void resetLanguages() 
-	{
-		this.languages.clear();
-		
-		for(String language : this.languages_original) 
-		{
-			this.languages.add(language);
-		}
 	}
 	
 	@Override

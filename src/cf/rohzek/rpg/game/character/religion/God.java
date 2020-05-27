@@ -11,6 +11,11 @@ public class God
 		this.title = title;
 	}
 	
+	public God copy() 
+	{
+		return new God(this.name, this.title);
+	}
+	
 	@Override
 	public String toString() 
 	{

@@ -11,6 +11,11 @@ public class Trait
 		this.description = description;
 	}
 	
+	public Trait copy() 
+	{
+		return new Trait(this.name, this.description);
+	}
+	
 	@Override
 	public String toString() 
 	{

@@ -8,6 +8,8 @@ import cf.rohzek.rpg.game.dice.Dice;
 import cf.rohzek.rpg.game.enemies.Enemy;
 import cf.rohzek.rpg.game.enemies.actions.EAction;
 import cf.rohzek.rpg.game.items.Items;
+import cf.rohzek.rpg.util.Save;
+import cf.rohzek.rpg.util.Typewriter;
 
 @SuppressWarnings("unused")
 public class Combat 
@@ -44,17 +46,17 @@ public class Combat
 	
 	private void InitiativePhase() 
 	{
-		System.out.println("\nRolling for " + character.name + "'s initiative.");
+		Typewriter.Type("\nRolling for " + character.name + "'s initiative.");
 		character.stats.core.initiative = character.stats.core.GetInitiative();
-		System.out.println("Got: " + character.stats.core.initiative + "\n");
+		Typewriter.Type("Got: " + character.stats.core.initiative + "\n");
 		
-		System.out.println("Rolling for " + enemy.name + "'s initiative.");
+		Typewriter.Type("Rolling for " + enemy.name + "'s initiative.");
 		enemy.stats.initiative = enemy.stats.GetInitiative();
-		System.out.println("Got: " + enemy.stats.initiative + "\n");
+		Typewriter.Type("Got: " + enemy.stats.initiative + "\n");
 		
-		System.out.println("\n\nPress Enter to start...");
+		Typewriter.Type("\n\nPress Enter to start...");
 		scanner.nextLine();
-		
+		RPGGame.clrscr();
 	}
 	
 	private void PlayerStart() 
@@ -69,7 +71,7 @@ public class Combat
 			if(enemy.hp > 0) 
 			{
 				EnemyTurn();
-				System.out.println("\n\nPress Enter to continue...");
+				Typewriter.Type("\n\nPress Enter to continue...");
 				scanner.nextLine();
 				RPGGame.clrscr();
 			}
@@ -87,7 +89,7 @@ public class Combat
 			if(character.health.current > 0) 
 			{
 				PlayerTurn();
-				System.out.println("\n\nPress Enter to continue...");
+				Typewriter.Type("\n\nPress Enter to continue...");
 				scanner.nextLine();
 				RPGGame.clrscr();
 			}
@@ -96,8 +98,8 @@ public class Combat
 	
 	private void PlayerTurn() 
 	{
-		System.out.println("\nWhat would you like to do?");
-		System.out.println("[Attack, Heal, Run]");
+		Typewriter.Type("\nWhat would you like to do?");
+		Typewriter.Type("[Attack, Heal, Run]");
 		String pi = scanner.nextLine().trim().toLowerCase();
 		
 		boolean temp = true;
@@ -110,25 +112,25 @@ public class Combat
 			
 			else 
 			{
-				System.out.println("\nInvalid action. Try again.");
-				System.out.println("What would you like to do?");
-				System.out.println("[Attack, Heal, Run]");
+				Typewriter.Type("\nInvalid action. Try again.");
+				Typewriter.Type("What would you like to do?");
+				Typewriter.Type("[Attack, Heal, Run]");
 				pi = scanner.nextLine().trim().toLowerCase();
 			}
 		}
 		
 		if("attack".equals(pi)) 
 		{
-			System.out.println("\nRolling for attack.");
+			Typewriter.Type("\nRolling for attack.");
 			int roll = character.stats.core.GetAttackRoll();
-			System.out.println("Got: " + roll);
+			Typewriter.Type("Got: " + roll);
 			
 			if(roll >= enemy.ac) 
 			{
-				System.out.println("Attacking " + enemy.name + " with " + Items.LONGSWORD);
-				System.out.println("Rolling for damage");
+				Typewriter.Type("\nAttacking " + enemy.name + " with " + Items.LONGSWORD);
+				Typewriter.Type("Rolling for damage");
 				roll = dice.Roll(Items.LONGSWORD.damage);
-				System.out.println("Hit " + enemy.name + " for " + roll + " damage");
+				Typewriter.Type("Hit " + enemy.name + " for " + roll + " damage");
 				
 				enemy.hp -= roll;
 				
@@ -137,7 +139,7 @@ public class Combat
 			
 			else 
 			{
-				System.out.println("You missed with " + Items.LONGSWORD.name);
+				Typewriter.Type("\nYou missed with " + Items.LONGSWORD.name);
 			}
 		}
 		
@@ -156,22 +158,22 @@ public class Combat
 	{
 		EAction act = enemy.actions.get(RPGGame.random.nextInt(enemy.actions.size()));
 		
-		System.out.println(enemy.name + " readies to use " + act.name);
-		System.out.println("\nRolling for attack.");
+		Typewriter.Type("\n" + enemy.name + " readies to use " + act.name);
+		Typewriter.Type("\nRolling for attack.");
 		int roll = dice.Roll(act.hit);
-		System.out.println("Got: " + roll);
+		Typewriter.Type("Got: " + roll);
 		
 		if(roll >= character.ac) 
 		{
-			System.out.println(enemy.name + " attacks with " + act.name);
+			Typewriter.Type("\n" + enemy.name + " attacks with " + act.name);
 			character.health.Remove(roll);
-			System.out.println("Hits you for " + roll);
+			Typewriter.Type("Hits you for " + roll);
 			
 			CheckPlayerHP();
 		}
 		else
 		{
-			System.out.println(enemy.name + " misses with " + act.name);
+			Typewriter.Type("\n" + enemy.name + " misses with " + act.name);
 		}
 	}
 	
@@ -179,11 +181,11 @@ public class Combat
 	{
 		if(character.health.current < 1) 
 		{
-			System.out.println("You have died.");
+			Typewriter.Type("\nYou have died.");
 		}
 		else
 		{
-			System.out.println("You have " + character.health.current + " HP left.");
+			Typewriter.Type("\nYou have " + character.health.current + " HP left.");
 		}
 	}
 	
@@ -192,16 +194,21 @@ public class Combat
 		if(enemy.hp < 1) 
 		{
 			enemy.hp = 0;
-			System.out.println("Enemy has died.");
+			Typewriter.Type("\nEnemy has died.");
 			character.GainEXP(enemy.xp);
 			LootDrops();
+			
+			Save.Write(character, character.name + ".char");
 		}
 		
 		else
 		{
-			System.out.println("Enemy has " + enemy.hp + " HP left.");
+			Typewriter.Type("\nEnemy has " + enemy.hp + " HP left.");
 		}
 	}
 	
-	private void LootDrops() {}
+	private void LootDrops() 
+	{
+		//enemy.inventory;
+	}
 }

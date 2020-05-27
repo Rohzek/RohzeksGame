@@ -24,6 +24,11 @@ public class Class implements IClass
 		this.baseMP = basem;
 		this.description = description;
 	}
+	
+	public Class copy() 
+	{
+		return new Class(this.name, this.hitDice, this.baseHP, this.manaDice, this.baseMP, this.description);
+	}
 
 	@Override
 	public String getName() 

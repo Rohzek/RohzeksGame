@@ -1,0 +1,57 @@
+{
+  "name": "rohzek",
+  "gender": "Female",
+  "health": {
+    "current": 15,
+    "max": 15
+  },
+  "mana": {
+    "current": 15,
+    "max": 15
+  },
+  "ac": 10,
+  "level": 1,
+  "experience": 0,
+  "stats": {
+    "core": {
+      "strength": 12,
+      "dexterity": 11,
+      "constitution": 20,
+      "intelligence": 1,
+      "wisdom": 17,
+      "charisma": 10,
+      "initiative": 0
+    },
+    "abilities": {
+      "firstAid": 0
+    }
+  },
+  "race": {
+    "name": "Human",
+    "age": 31,
+    "weight": 213.47,
+    "heightCentimeters": 169.99,
+    "traits": [],
+    "languages": [
+      "Common",
+      "Orc"
+    ]
+  },
+  "class": {
+    "name": "Paladin",
+    "god": "Pelor",
+    "alignment": "Lawful Good"
+  },
+  "magicks": [],
+  "inventory": {
+    "platinum": 0,
+    "gold": 0,
+    "silver": 0,
+    "copper": 0,
+    "items": [],
+    "main_hand": "",
+    "off_hand": "",
+    "armor": []
+  },
+  "battles": 0
+}

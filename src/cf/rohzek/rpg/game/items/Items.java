@@ -13,7 +13,7 @@ import cf.rohzek.rpg.game.items.Weapon.Enchantment;
 
 //https://www.dndbeyond.com/items
 public class Items 
-{	
+{
 	// Armor
 	public static Armor LEATHER_HELMET = new Armor("Leather Helmet", 3d, 2f, 2, ArmorMaterial.LEATHER, ArmorSlot.HEAD);
 	public static Armor LEATHER_PAULDRONS = new Armor("Leather Pauldrons", 3d, 2f, 2, ArmorMaterial.LEATHER, ArmorSlot.SHOULDERS);
@@ -36,11 +36,25 @@ public class Items
 		LEATHER_BOOTS,
 	});
 	
+	public static List<Armor> ARMORS = Arrays.asList(new Armor[] 
+	{
+		LEATHER_HELMET,
+		LEATHER_PAULDRONS,
+		LEATHER_BREASTPLATE,
+		LEATHER_COUTER,
+		LEATHER_BRACERS,
+		LEATHER_GLOVES,
+		LEATHER_GREAVES,
+		LEATHER_BOOTS,
+	});
+	
 	// Weapons
-	public static Weapon LONGSWORD = new Weapon("Longsword", 15d, 3f, "d8", DamageType.SLASHING, Enchantment.NONE, 1, false);
-	public static Weapon LONGSWORD_1 = new Weapon("Longsword+1", 20d, 3f, "d8+1", DamageType.SLASHING, Enchantment.NONE, 1, false);
-	public static Weapon LONGSWORD_2 = new Weapon("Longsword+2", 25d, 3f, "d8+2", DamageType.SLASHING, Enchantment.NONE, 1, false);
-	public static Weapon LONGSWORD_3 = new Weapon("Longsword+3", 30d, 3f, "d8+3", DamageType.SLASHING, Enchantment.NONE, 1, false);
+	public static Weapon NOTHING = new Weapon("", 0d, 0f, "", DamageType.NONE, Enchantment.NONE, 1, true);
+	
+	public static Weapon LONGSWORD = new Weapon("Longsword", 15d, 3f, "d8", DamageType.SLASHING, Enchantment.NONE, 1, true);
+	public static Weapon LONGSWORD_1 = new Weapon("Longsword+1", 20d, 3f, "d8+1", DamageType.SLASHING, Enchantment.NONE, 1, true);
+	public static Weapon LONGSWORD_2 = new Weapon("Longsword+2", 25d, 3f, "d8+2", DamageType.SLASHING, Enchantment.NONE, 1, true);
+	public static Weapon LONGSWORD_3 = new Weapon("Longsword+3", 30d, 3f, "d8+3", DamageType.SLASHING, Enchantment.NONE, 1, true);
 	
 	// Shields
 	public static Shield IRON_BUCKLER = new Shield("Iron Buckler", 10d, 8f, ShieldMaterial.IRON, 3);

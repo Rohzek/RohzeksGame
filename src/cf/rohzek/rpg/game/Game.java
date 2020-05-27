@@ -15,6 +15,9 @@ import cf.rohzek.rpg.game.enemies.Enemies;
 import cf.rohzek.rpg.game.enemies.Enemy;
 import cf.rohzek.rpg.game.items.Armor;
 import cf.rohzek.rpg.game.items.Items;
+import cf.rohzek.rpg.util.Load;
+import cf.rohzek.rpg.util.Save;
+import cf.rohzek.rpg.util.Typewriter;
 
 @SuppressWarnings("unused")
 public class Game 
@@ -24,17 +27,12 @@ public class Game
 	Dungeon dungeon;
 	Combat combat;
 	
-	private boolean gameRunning = false;
-	private boolean gameLoaded = false;
-	
 	public Game() 
 	{
 		scanner = RPGGame.scanner;
 		character = RPGGame.character;
 		dungeon = RPGGame.dungeon;
 		combat = RPGGame.combat;
-		
-		gameRunning = true;
 		
 		StartGame();
 	}
@@ -45,58 +43,49 @@ public class Game
 	 */
 	public void StartGame() 
 	{
-		System.out.println("Hello, and welcome to " + RPGGame.game_name);
-		System.out.println(RPGGame.game_name + " is a fantasy RPG dungeon crawler.");
+		Typewriter.Type("Hello, and welcome to " + RPGGame.game_name);
+		Typewriter.Type(RPGGame.game_name + " is a fantasy RPG dungeon crawler.");
 		
 		if(RPGGame.saves.size() > 0)
 		{
-			System.out.println("\nI notice you have a saved game. Would you like to load it? [yes/no]");
+			Typewriter.Type("\nI notice you have a character saved. Would you like to load it? [yes/no]");
 			String loadresponse = scanner.nextLine();
 			
 			if(loadresponse.toLowerCase().contains("yes")) 
 			{
-				System.out.println("\nWhich game would you like to load?");
-				System.out.println(RPGGame.saves);
+				Typewriter.Type("\nWhich game would you like to load?");
+				Typewriter.Type(RPGGame.saves.toString());
 				String saveToLoad = scanner.nextLine();
 				
 				for(File name : RPGGame.saves) 
 				{
 					if(name.getName().toLowerCase().contains(saveToLoad.toLowerCase())) 
 					{
-						System.out.println("\nLoading " + name.getName() + "\n");
-						gameLoaded = true;
+						Typewriter.Type("\nLoading " + name.getName() + "\n");
+						character = Load.Read(name.getName());
 						break;
 					}
 				}
 				
-				if(!gameLoaded) 
+				if(character == null) 
 				{
-					System.out.println("\nLoad game failed! Starting new game...");
+					Typewriter.Type("\nLoad character failed! Loading character generation...");
+					GenerateCharacter();
 				}
+			}
+			else 
+			{
+				GenerateCharacter();
 			}
 		}
 		else 
 		{
-			System.out.println("\nNo saved games found. Starting a new game.");
-		}
-		
-		// Attempt to load game here
-		if(gameLoaded) 
-		{
-			
-		}
-		
-		while(gameRunning && !gameLoaded) 
-		{
+			Typewriter.Type("\nNo saved characters found. Generating a new one.");
 			GenerateCharacter();
-			//GenerateDungeon();
-			RunGame();
 		}
-		
-		while(gameRunning && gameLoaded) 
-		{
-			RunGame();
-		}
+
+		GenerateDungeon();
+		RunGame();
 	}
 	
 	/**
@@ -110,63 +99,63 @@ public class Game
 		{
 			character = new Character();
 			
-			System.out.println("\nWhat is your character's gender? (Leave blank for random gender)");
+			Typewriter.Type("\nWhat is your character's gender? (Leave blank for random gender)");
 			character.ChooseGender(scanner.nextLine());
 			
 			
-			System.out.println("\nWhat is your character's name? (Leave blank for random name)");
+			Typewriter.Type("\nWhat is your character's name? (Leave blank for random name)");
 			character.ChooseName(scanner.nextLine());
 			
 			
-			System.out.println("\nWhat is your character's race? (Leave blank for random race)");
-			System.out.println(Races.RACES);
+			Typewriter.Type("\nWhat is your character's race? (Leave blank for random race)");
+			Typewriter.Type(Races.RACES.toString());
 			character.ChooseRace(scanner.nextLine());
 			
 			character.AddRacialStats(character.race);
 			
 			if(character.race.name.toLowerCase().equals("human") || character.race.name.toLowerCase().equals("half-elf") || character.race.name.toLowerCase().equals("half elf")) 
 			{
-				System.out.println("\nAs a " + character.race.name + " you get a language selection. What language would you like? (Leave blank for random language)");
-				character.race.resetLanguages();
-				System.out.println(Languages.LANGUAGES);
-				System.out.println("(Please keep in mind that you already speak: " + character.race.languages + ")");
+				Typewriter.Type("\nAs a " + character.race.name + " you get a language selection. What language would you like? (Leave blank for random language)");
+				Typewriter.Type(Languages.LANGUAGES.toString());
+				Typewriter.Type("(Please keep in mind that you already speak: " + character.race.languages + ")");
 				character.AddLanguage(scanner.nextLine());
 			}
 			
 			if(character.race.name.toLowerCase().equals("half-elf") || character.race.name.toLowerCase().equals("half elf")) 
 			{
-				System.out.println("\nAs a " + character.race.name + " you get a +1 to two ability scores. Which two would you like? (Leave blank for random selection)");
-				System.out.println(character.stats.core.STATS);
-				System.out.println("(Please separate your choices with a space)");
+				Typewriter.Type("\nAs a " + character.race.name + " you get a +1 to two ability scores. Which two would you like? (Leave blank for random selection)");
+				Typewriter.Type(character.stats.core.STATS.toString());
+				Typewriter.Type("(Please separate your choices with a space)");
 				character.AddBonusStats(scanner.nextLine());
 			}
 			
-			System.out.println("\nWhat is your character's class? (Leave blank for random class)");
-			System.out.println(Classes.CLASSES);
+			Typewriter.Type("\nWhat is your character's class? (Leave blank for random class)");
+			Typewriter.Type(Classes.CLASSES.toString());
 			
 			character.ChooseClass(scanner.nextLine());
 			character.GenerateStats();
 			
-			System.out.println("\nWhat is your character's god or goddess? (Leave blank for random god)");
-			System.out.println(Gods.GODS);
+			Typewriter.Type("\nWhat is your character's god or goddess? (Leave blank for random god)");
+			Typewriter.Type(Gods.GODS.toString());
 			
 			character.setGod(scanner.nextLine());
 			
-			System.out.println("\nWhat is your character's alignment? (Leave blank for random alignment)");
-			System.out.println(Alignments.ALIGNMENTS);
+			Typewriter.Type("\nWhat is your character's alignment? (Leave blank for random alignment)");
+			Typewriter.Type(Alignments.ALIGNMENTS.toString());
 			
 			character.setAlignment(scanner.nextLine());
 			
 			RPGGame.clrscr();
-			System.out.println("\nCharacter Information:");
-			System.out.println(character);
+			Typewriter.Type("\nCharacter Information:");
+			Typewriter.Type(character.toString());
 			
-			System.out.println("\nStart game with this character? [yes/no]");
+			Typewriter.Type("\nStart game with this character? [yes/no]");
 			boolean acceptCharacter = (scanner.nextLine().toLowerCase().contains("yes") ? true : false);
 			
 			if(acceptCharacter) 
 			{
 				genChar = false;
+				Save.Write(character, character.name + ".char");
 			}
 			
 			RPGGame.clrscr();
@@ -189,74 +178,79 @@ public class Game
 	{
 		combat = new Combat(character);
 		CombatTest();
-		gameRunning = false;
+		// DungeonExplorationTest();
 	}
 	
 	public void CombatTest() 
 	{
-		RPGGame.clrscr();
-		System.out.println("Combat Test 0.0.2-alpha");
-		System.out.println("Which enemy would you like to spawn?");
-		System.out.println(Enemies.ENEMIES);
-		String enemyName = scanner.nextLine().trim().toLowerCase();
-		Enemy enemy = null;
+		boolean runTest = true;
 		
-		
-		boolean temp = true;
-		while(temp) 
+		while(runTest) 
 		{
-			if("kobold".equals(enemyName) || "goblin".equals(enemyName) || "hobgoblin".equals(enemyName) || "gnoll".equals(enemyName) || "treasure chest".equals(enemyName)) 
+			RPGGame.clrscr();
+			Typewriter.Type("Combat Test 0.0.5-alpha");
+			Typewriter.Type("Which enemy would you like to spawn?");
+			Typewriter.Type(Enemies.ENEMIES.toString());
+			String enemyName = scanner.nextLine().trim().toLowerCase();
+			Enemy enemy = null;
+			
+			
+			boolean temp = true;
+			while(temp) 
 			{
-				temp = false;
+				if("kobold".equals(enemyName) || "goblin".equals(enemyName) || "hobgoblin".equals(enemyName) || "gnoll".equals(enemyName) || "treasure chest".equals(enemyName)) 
+				{
+					temp = false;
+				}
+				else 
+				{
+					Typewriter.Type("\nEnemy type not found. Please try again.\n");
+					Typewriter.Type("\nWhich enemy would you like to spawn?");
+					Typewriter.Type(Enemies.ENEMIES.toString());
+					enemyName = scanner.nextLine().trim().toLowerCase();
+				}
 			}
-			else 
+			
+			for(Enemy e : Enemies.ENEMIES) 
 			{
-				System.out.println("\nEnemy type not found. Please try again.\n");
-				System.out.println("\nWhich enemy would you like to spawn?");
-				System.out.println(Enemies.ENEMIES);
-				enemyName = scanner.nextLine().trim().toLowerCase();
+				if(e.name.toLowerCase().equals(enemyName))
+				{
+					enemy = e.copy();
+				}
 			}
-		}
-		
-		for(Enemy e : Enemies.ENEMIES) 
-		{
-			if(e.name.toLowerCase().equals(enemyName))
+			
+			int ac = 0;
+			
+			for(Armor armor : Items.LEATHER_SET) 
 			{
-				enemy = e.copy();
+				ac += armor.armorClass;
 			}
+			
+			ac += Items.IRON_KITE.armorClass;
+			
+			RPGGame.clrscr();
+			
+			character.ac = ac;
+			Typewriter.Type("\nCharacter information:");
+			Typewriter.Type("Name: " + character.name);
+			Typewriter.Type("HP: " + character.health.current);
+			Typewriter.Type("AC: " + character.ac);
+			Typewriter.Type("Weapon: " + Items.LONGSWORD.name);
+			Typewriter.Type("Shield: " + Items.IRON_KITE.name);
+			Typewriter.Type("Armor: " + Items.LEATHER_SET + "\n");
+			
+			Typewriter.Type("\nEnemy information:");
+			Typewriter.Type("Name: " + enemy.name);
+			Typewriter.Type("HP: " + enemy.hp);
+			Typewriter.Type("AC: " + enemy.ac);
+			Typewriter.Type("Actions: " + enemy.actions + "\n");
+			
+			Typewriter.Type("\nPress Enter to continue...\n");
+			scanner.nextLine();
+			
+			RPGGame.clrscr();
+			
+			combat.Encounter(enemy);
 		}
-		
-		int ac = 0;
-		
-		for(Armor armor : Items.LEATHER_SET) 
-		{
-			ac += armor.armorClass;
-		}
-		
-		ac += Items.IRON_KITE.armorClass;
-		
-		RPGGame.clrscr();
-		
-		character.ac = ac;
-		System.out.println("\nCharacter information:");
-		System.out.println("Name: " + character.name);
-		System.out.println("HP: " + character.health.current);
-		System.out.println("AC: " + character.ac);
-		System.out.println("Weapon: " + Items.LONGSWORD.name);
-		System.out.println("Shield: " + Items.IRON_KITE.name);
-		System.out.println("Armor: " + Items.LEATHER_SET + "\n");
-		
-		System.out.println("\nEnemy information:");
-		System.out.println("Name: " + enemy.name);
-		System.out.println("HP: " + enemy.hp);
-		System.out.println("AC: " + enemy.ac);
-		System.out.println("Actions: " + enemy.actions + "\n");
-		
-		System.out.println("\nPress Enter to continue...\n");
-		scanner.nextLine();
-		
-		RPGGame.clrscr();
-		
-		combat.Encounter(enemy);
 	}
 }

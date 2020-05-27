@@ -12,28 +12,28 @@ import cf.rohzek.rpg.game.character.traits.Traits;
 // https://www.dndbeyond.com/races
 public class Races 
 {
-	public static Race dragonborn = new Race("Dragonborn", "", 0f, 30, Arrays.asList(new Trait[]{Traits.draconic_ancestry, Traits.breath_weapon, Traits.damage_resistance}), Arrays.asList(new String[]{Languages.COMMON, Languages.DRACONIC}));
-	public static Race dwarf = new Race("Dwarf", "", 0f, 25, Arrays.asList(new Trait[]{Traits.darkvision, Traits.dwarven_combat_training, Traits.dwarven_resilience}), Arrays.asList(new String[]{Languages.COMMON, Languages.DWARVISH}));
-	public static Race elf = new Race("Elf", "", 0f, 30, Arrays.asList(new Trait[]{Traits.darkvision, Traits.keen_senses, Traits.fey_ancestory, Traits.trance}), Arrays.asList(new String[]{Languages.COMMON, Languages.ELVISH}));
-	public static Race gnome = new Race("Gnome", "", 0f, 25, Arrays.asList(new Trait[]{Traits.darkvision, Traits.gnome_cunning}), Arrays.asList(new String[]{Languages.COMMON, Languages.GNOMISH}));
-	public static Race half_elf = new Race("Half-Elf", "", 0f, 30, Arrays.asList(new Trait[]{Traits.darkvision, Traits.fey_ancestory, Traits.skill_versatility}), Arrays.asList(new String[]{Languages.COMMON, Languages.ELVISH}));
-	public static Race halfling = new Race("Halfling", "", 0f, 25, Arrays.asList(new Trait[]{Traits.lucky, Traits.brave, Traits.halfling_nimbleness}), Arrays.asList(new String[]{Languages.COMMON, Languages.HALFLING}));
-	public static Race half_orc = new Race("Half-Orc", "", 0f, 30, Arrays.asList(new Trait[]{Traits.darkvision, Traits.menacing, Traits.relentless_endurance, Traits.savage_attacks}), Arrays.asList(new String[]{Languages.COMMON, Languages.ORC}));
-	public static Race human = new Race("Human", "", 0f, 30, Arrays.asList(new Trait[]{}), Arrays.asList(new String[]{Languages.COMMON}));
-	public static Race tiefling = new Race("Tiefling", "", 0f, 30, Arrays.asList(new Trait[]{Traits.darkvision, Traits.hellish_resistance, Traits.infernal_legacy}), Arrays.asList(new String[]{Languages.COMMON, Languages.INFERNAL}));
+	public static Race DRAGONBORN = new Race("Dragonborn", 0, 0f, "", RaceSize.MEDIUM, 0f, 30, Arrays.asList(new Trait[]{Traits.DRACONIC_ANCESTRY, Traits.BREATH_WEAPON, Traits.DAMAGE_RESISTANCE}), Arrays.asList(new String[]{Languages.COMMON, Languages.DRACONIC}));
+	public static Race DWARF = new Race("Dwarf", 0, 0f, "", RaceSize.MEDIUM, 0f,  25, Arrays.asList(new Trait[]{Traits.DARKVISION, Traits.DWARVEN_COMBAT_TRAINING, Traits.DWARVEN_RESILIENCE}), Arrays.asList(new String[]{Languages.COMMON, Languages.DWARVISH}));
+	public static Race ELF = new Race("Elf", 0, 0f, "", RaceSize.MEDIUM, 0f, 30, Arrays.asList(new Trait[]{Traits.DARKVISION, Traits.KEEN_SENSES, Traits.FEY_ANCESTORY, Traits.TRANCE}), Arrays.asList(new String[]{Languages.COMMON, Languages.ELVISH}));
+	public static Race GNOME = new Race("Gnome", 0, 0f, "", RaceSize.MEDIUM, 0f, 25, Arrays.asList(new Trait[]{Traits.DARKVISION, Traits.GNOME_CUNNING}), Arrays.asList(new String[]{Languages.COMMON, Languages.GNOMISH}));
+	public static Race HALF_ELF = new Race("Half-Elf", 0, 0f, "", RaceSize.MEDIUM, 0f, 30, Arrays.asList(new Trait[]{Traits.DARKVISION, Traits.FEY_ANCESTORY, Traits.SKILL_VERSATILITY}), Arrays.asList(new String[]{Languages.COMMON, Languages.ELVISH}));
+	public static Race HALFLING = new Race("Halfling", 0, 0f, "", RaceSize.MEDIUM, 0f, 25, Arrays.asList(new Trait[]{Traits.LUCKY, Traits.BRAVE, Traits.HALFLING_NIMBLENESS}), Arrays.asList(new String[]{Languages.COMMON, Languages.HALFLING}));
+	public static Race HALF_ORC = new Race("Half-Orc", 0, 0f, "", RaceSize.MEDIUM, 0f, 30, Arrays.asList(new Trait[]{Traits.DARKVISION, Traits.MENACING, Traits.RELENTLESS_ENDURANCE, Traits.SAVAGE_ATTACKS}), Arrays.asList(new String[]{Languages.COMMON, Languages.ORC}));
+	public static Race HUMAN = new Race("Human", 0, 0f, "", RaceSize.MEDIUM, 0f, 0, Arrays.asList(new Trait[]{}), Arrays.asList(new String[]{Languages.COMMON}));
+	public static Race TIEFLING = new Race("Tiefling", 0, 0f, "", RaceSize.MEDIUM, 0f, 30, Arrays.asList(new Trait[]{Traits.DARKVISION, Traits.HELLISH_RESISTANCE, Traits.INFERNAL_LEGACY}), Arrays.asList(new String[]{Languages.COMMON, Languages.INFERNAL}));
 	
 	
 	private static Race[] races = 
 	{
-		dragonborn,
-		dwarf,
-		elf,
-		gnome,
-		half_elf,
-		halfling,
-		half_orc,
-		human,
-		tiefling,
+		DRAGONBORN,
+		DWARF,
+		ELF,
+		GNOME,
+		HALF_ELF,
+		HALFLING,
+		HALF_ORC,
+		HUMAN,
+		TIEFLING,
 	};
 	
 	public static List<Race> RACES = Arrays.asList(races);
@@ -49,8 +49,6 @@ public class Races
 				minimum = 198.12f;
 				maximum = 274.32f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
-				race.size = RaceSize.MEDIUM;
 				minimum = 200f;
 				maximum = 250f - minimum;
 				race.weight = Generate(minimum, maximum);
@@ -62,8 +60,6 @@ public class Races
 				minimum = 121.92f;
 				maximum = 152.4f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
-				race.size = RaceSize.MEDIUM;
 				minimum = 100f;
 				maximum = 250f - minimum;
 				race.weight = Generate(minimum, maximum);
@@ -75,8 +71,6 @@ public class Races
 				minimum = 137.16f;
 				maximum = 198.12f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
-				race.size = RaceSize.MEDIUM;
 				minimum = 100f;
 				maximum = 250f - minimum;
 				race.weight = Generate(minimum, maximum);
@@ -88,7 +82,6 @@ public class Races
 				minimum = 91.44f;
 				maximum = 121.92f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
 				race.size = RaceSize.SMALL;
 				minimum = 15f;
 				maximum = 250f - minimum;
@@ -101,8 +94,6 @@ public class Races
 				minimum = 152.4f;
 				maximum = 182.88f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
-				race.size = RaceSize.MEDIUM;
 				minimum = 90f;
 				maximum = 250f - minimum;
 				race.weight = Generate(minimum, maximum);
@@ -114,7 +105,6 @@ public class Races
 				minimum = 76.2f;
 				maximum = 106.68f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
 				race.size = RaceSize.SMALL;
 				minimum = 15f;
 				maximum = 250f - minimum;
@@ -127,8 +117,6 @@ public class Races
 				minimum = 152.40f;
 				maximum = 250f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
-				race.size = RaceSize.MEDIUM;
 				minimum = 150f;
 				maximum = 250f - minimum;
 				race.weight = Generate(minimum, maximum);
@@ -140,8 +128,6 @@ public class Races
 				minimum = 152.40f;
 				maximum = 182.88f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
-				race.size = RaceSize.MEDIUM;
 				minimum = 90f;
 				maximum = 250f - minimum;
 				race.weight = Generate(minimum, maximum);
@@ -153,8 +139,6 @@ public class Races
 				minimum = 152.40f;
 				maximum = 182.88f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
-				race.size = RaceSize.MEDIUM;
 				minimum = 90f;
 				maximum = 250f - minimum;
 				race.weight = Generate(minimum, maximum);
@@ -166,8 +150,6 @@ public class Races
 				minimum = 152.40f;
 				maximum = 182.88f - minimum;
 				race.heightCentimeters = Generate(minimum, maximum);
-				race.centimetersToFeetInches(race.heightCentimeters);
-				race.size = RaceSize.MEDIUM;
 				minimum = 90f;
 				maximum = 250f - minimum;
 				race.weight = Generate(minimum, maximum);
@@ -176,6 +158,8 @@ public class Races
 				race.age = RPGGame.random.nextInt(aMax) + aMin;
 				break;
 		}
+		
+		race.centimetersToFeetInches(race.heightCentimeters);
 	}
 	
 	public static float Generate(float minimum, float maximum) 
